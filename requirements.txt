@@ -6,3 +6,4 @@ python-jose[cryptography]
 email-validator
 motor
 python-dotenv
+python-multipart
