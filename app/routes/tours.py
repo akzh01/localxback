@@ -3,8 +3,12 @@ from app.config.database import db
 from app.models.tour import Tour
 from bson import ObjectId
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/tours",  # Добавляем префикс, чтобы роуты были /tours
+    tags=["Tours"]
+)
 
+# Создать новый тур
 @router.post("/")
 async def create_tour(tour: Tour):
     tour_dict = tour.dict()
@@ -12,6 +16,7 @@ async def create_tour(tour: Tour):
     result = await db.tours.insert_one(tour_dict)
     return {**tour_dict, "id": str(result.inserted_id)}
 
+# Получить один тур по ID
 @router.get("/{tour_id}")
 async def get_tour(tour_id: str):
     tour = await db.tours.find_one({"_id": ObjectId(tour_id)})
@@ -21,6 +26,7 @@ async def get_tour(tour_id: str):
     del tour["_id"]
     return tour
 
+# Получить все туры
 @router.get("/")
 async def list_tours():
     tours = []

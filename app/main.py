@@ -22,5 +22,3 @@ def root():
     return {"message": "Welcome to LocalX API!"}
 
 from app.routes import bookings
-
-app.include_router(bookings.router, prefix="/bookings", tags=["Bookings"])
